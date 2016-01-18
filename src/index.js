@@ -29,9 +29,14 @@ module.exports = function(packages) {
 
     packages = packages || [];
     result.packages = {};
+    result.allVersions = result.version;
+    if (result.commit) result.allVersions += "-" + result.commit.substr(0, 8); 
     for (var i = 0; i < packages.length; i++) {
         var folder = glob.sync("**/node_modules/" + packages[i])[0];
-        result.packages[packages[i]] = getVersion(folder);
+        var v = getVersion(folder);
+        if (v.version) result.allVersions += "-" + v.version; 
+        if (v.commit) result.allVersions += "-" + v.commit.substr(0, 8); 
+        result.packages[packages[i]] = v;
     }
 
 

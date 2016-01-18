@@ -1,6 +1,6 @@
 {
   "name": "buildversion",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Generate a unique build identifier from multiple package versions and git commits",
   "repository": {
     "url": "http://github.com/tqc/buildversion"
