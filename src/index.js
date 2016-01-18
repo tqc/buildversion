@@ -21,7 +21,7 @@ function getVersion(folder) {
 }
 
 
-var buildVersion = module.exports = function(packages) {
+module.exports = function(packages) {
 
     var result = getVersion(process.cwd());
 
