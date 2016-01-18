@@ -1,8 +1,10 @@
 var fs = require("fs");
 var path = require("path");
-var packagePath = require('package-path').sync;
 var git = require("gitrunner");
 git.runSync = true;
+
+var glob = require("glob");
+
 
 function getVersion(folder) {
     var result = {};
@@ -28,9 +30,11 @@ module.exports = function(packages) {
     packages = packages || [];
     result.packages = {};
     for (var i = 0; i < packages.length; i++) {
-        var folder = packagePath(require.resolve(packages[i]));
+        var folder = glob.sync("**/node_modules/" + packages[i])[0];
         result.packages[packages[i]] = getVersion(folder);
     }
+
+
     return result;
 };
 
