@@ -1,0 +1,28 @@
+{
+  "name": "buildversion",
+  "version": "1.0.0",
+  "description": "Generate a unique build identifier from multiple package versions and git commits",
+  "repository": {
+    "url": "http://github.com/tqc/buildversion"
+  },
+  "scripts": {
+    "test": "eslint . && mocha"
+  },
+  "main": "src/index.js",
+  "keywords": [],
+  "author": "Tom Clarkson",
+  "license": "MIT",
+  "dependencies": {
+    "gitrunner": "^0.0.3",
+    "package-path": "0.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "*",
+    "eslint": "^1.9.0",
+    "eslint-config-defaults": "^7.1.1",
+    "mocha": "^2.2.4"
+  },
+  "engines": {
+    "node": "^4.2.2"
+  }
+}
