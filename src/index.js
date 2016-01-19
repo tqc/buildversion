@@ -35,7 +35,7 @@ module.exports = function(packages) {
     for (var i = 0; i < packages.length; i++) {
         var folder = glob.sync("**/node_modules/" + packages[i])[0];
         var v = getVersion(folder);
-        if (v.commit && knownCommits.indexOf(v) >= 0) {
+        if (v.commit && knownCommits.indexOf(v.commit) >= 0) {
             // the commit returned could be from a parent folder - remove duplicates
             delete v.commit;
         }
