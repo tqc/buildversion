@@ -1,6 +1,6 @@
 {
   "name": "buildversion",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Generate a unique build identifier from multiple package versions and git commits",
   "repository": {
     "url": "http://github.com/tqc/buildversion"
@@ -13,7 +13,7 @@
   "author": "Tom Clarkson",
   "license": "MIT",
   "dependencies": {
-    "gitrunner": "^0.0.4",
+    "gitrunner": "^1.0.5",
     "glob": "^6.0.4"
   },
   "devDependencies": {
