@@ -33,6 +33,9 @@ function getVersion(folder) {
         // npm does not keep the the metadata for git dependencies, so
         // the best we can do is ask the remote server for the current value of master
         var refs = git.getRemoteRefs(result.requestedVersion.substr(10));
+        if (!refs) {
+            console.log("Error getting refs for " + result.requestedVersion.substr(10))
+        }
         if (refs && refs.master) result.commit = refs.master;
     }
 
