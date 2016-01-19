@@ -30,12 +30,20 @@ module.exports = function(packages) {
     packages = packages || [];
     result.packages = {};
     result.allVersions = result.version;
-    if (result.commit) result.allVersions += "-" + result.commit.substr(0, 8); 
+    if (result.commit) result.allVersions += "-" + result.commit.substr(0, 8);
+    var knownCommits = [];
     for (var i = 0; i < packages.length; i++) {
         var folder = glob.sync("**/node_modules/" + packages[i])[0];
         var v = getVersion(folder);
-        if (v.version) result.allVersions += "-" + v.version; 
-        if (v.commit) result.allVersions += "-" + v.commit.substr(0, 8); 
+        if (v.commit && knownCommits.indexOf(v) >= 0) {
+            // the commit returned could be from a parent folder - remove duplicates
+            delete v.commit;
+        }
+        if (v.commit) knownCommits.push(v.commit);
+
+        if (v.version) result.allVersions += "-" + v.version;
+        if (v.commit) result.allVersions += "-" + v.commit.substr(0, 8);
+
         result.packages[packages[i]] = v;
     }
 
