@@ -7,6 +7,9 @@ var glob = require("glob");
 
 
 function getVersion(folder) {
+    if (!folder) return {
+        version: "0.0.0"
+    }
     var result = {};
     var packageFile = path.resolve(folder, "package.json");
     if (fs.existsSync(packageFile)) {
@@ -32,6 +35,7 @@ function getVersion(folder) {
     else if (result.requestedVersion && result.requestedVersion.indexOf("git+ssh://") == 0 && result.requestedVersion.indexOf("#") < 0) {
         // npm does not keep the the metadata for git dependencies, so
         // the best we can do is ask the remote server for the current value of master
+        console.log("Getting remote refs");
         var refs = git.getRemoteRefs(result.requestedVersion.substr(10));
         if (!refs) {
             console.log("Error getting refs for " + result.requestedVersion.substr(10))
@@ -57,7 +61,10 @@ module.exports = function(packages) {
         result.allVersions += "-" + result.commit.substr(0, 8);
     }
     for (var i = 0; i < packages.length; i++) {
-        var folder = glob.sync("**/node_modules/" + packages[i])[0];
+        var folder = path.resolve(process.cwd(), "./node_modules/" + packages[i]);
+        if (!fs.existsSync(folder)) folder = path.resolve(process.cwd(), "./node_modules/" + packages[i - 1] + "/node_modules/" + packages[i])[0];
+        if (!fs.existsSync(folder)) folder = glob.sync("node_modules/*/node_modules/" + packages[i])[0];
+        if (!folder) folder = glob.sync("node_modules/**/node_modules/" + packages[i])[0];
         var v = getVersion(folder);
         if (v.commit && knownCommits.indexOf(v.commit) >= 0) {
             // the commit returned could be from a parent folder - remove duplicates
