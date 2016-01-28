@@ -62,7 +62,7 @@ module.exports = function(packages) {
     }
     for (var i = 0; i < packages.length; i++) {
         var folder = path.resolve(process.cwd(), "./node_modules/" + packages[i]);
-        if (!fs.existsSync(folder)) folder = path.resolve(process.cwd(), "./node_modules/" + packages[i - 1] + "/node_modules/" + packages[i])[0];
+        if (!fs.existsSync(folder)) folder = path.resolve(process.cwd(), "./node_modules/" + packages[i - 1] + "/node_modules/" + packages[i]);
         if (!fs.existsSync(folder)) folder = glob.sync("node_modules/*/node_modules/" + packages[i])[0];
         if (!folder) folder = glob.sync("node_modules/**/node_modules/" + packages[i])[0];
         var v = getVersion(folder);
