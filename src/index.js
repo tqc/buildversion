@@ -1,7 +1,6 @@
 var fs = require("fs");
 var path = require("path");
-var git = require("gitrunner");
-git.runSync = true;
+var git = require("gitrunner").Sync;
 
 var glob = require("glob");
 
@@ -29,14 +28,14 @@ function getVersion(folder) {
 
     if (fs.existsSync(path.resolve(folder, ".git"))) {
         // folder is a git repo set up via npm link
-        var head = git.currentHead(folder);
+        var head = git.currentHead(folder);        
         if (head) result.commit = head;
     }
     else if (result.requestedVersion && result.requestedVersion.indexOf("git+ssh://") == 0 && result.requestedVersion.indexOf("#") < 0) {
         // npm does not keep the the metadata for git dependencies, so
         // the best we can do is ask the remote server for the current value of master
         console.log("Getting remote refs");
-        var refs = git.getRemoteRefs(result.requestedVersion.substr(10));
+        var refs = git.remoteRefs(result.requestedVersion.substr(10));
         if (!refs) {
             console.log("Error getting refs for " + result.requestedVersion.substr(10))
         }
