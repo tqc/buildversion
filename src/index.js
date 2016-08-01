@@ -28,7 +28,8 @@ function getVersion(folder) {
 
     if (fs.existsSync(path.resolve(folder, ".git"))) {
         // folder is a git repo set up via npm link
-        var head = git.currentHead(folder);        
+        // need to resolve the symlinks, as a submodule can have relative paths in .git
+        var head = git.currentHead(fs.realpathSync(folder));
         if (head) result.commit = head;
     }
     else if (result.requestedVersion && result.requestedVersion.indexOf("git+ssh://") == 0 && result.requestedVersion.indexOf("#") < 0) {
